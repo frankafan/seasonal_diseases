@@ -9,6 +9,7 @@ data = pd.read_csv(FILE, skiprows=4)[RANGE[0]:RANGE[1]]
 temperature = data['Value'].to_numpy()
 month = np.arange(len(temperature))
 
-plt.figure()
-plt.plot(month, temperature)
-plt.show()
+if __name__ == '__main__':
+    plt.figure()
+    plt.plot(month, temperature)
+    plt.show()
