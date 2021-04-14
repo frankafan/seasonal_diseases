@@ -2,16 +2,16 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-PLOT = True
+PLOT = False
 FILE = 'influenza.csv'  # https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/29023
 REGION = 'Pacific'
-RANGE = [0, -1]
+RANGE = [14, -3]  # from 1998-01 to 2014-12
 
 data = pd.read_csv(FILE, skiprows=1)
-data = data[data['REGION'] == REGION]
+data = data[data['REGION'] == REGION][RANGE[0]:RANGE[1]]
 # print(data['REGION'].unique())
 
-total_patients = data['TOTAL PATIENTS'].to_numpy()[RANGE[0]:RANGE[1]]
+total_patients = data['TOTAL PATIENTS'].to_numpy()
 week = np.arange(len(total_patients))
 for i in range(len(total_patients)):
     if np.isnan(total_patients[i]) and (i > 0):
@@ -30,7 +30,7 @@ def fit(time, data, degree):
     return np.array(y)
 
 
-trend = fit(week, total_patients, 20)
+trend = fit(week, total_patients, 10)
 
 ft_freq = np.fft.fftshift(np.fft.fftfreq(len(week), 7 / 365))
 ft_raw = np.fft.fftshift(np.fft.fft(total_patients))
@@ -58,7 +58,7 @@ if PLOT:
     plt.stem(ft_freq, np.square(np.abs(ft_filtered)), use_line_collection=True)
 
     plt.figure()
-    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_filtered)) + trend)
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_filtered)))
 
     plt.figure()
     plt.plot(week, total_patients)
