@@ -41,7 +41,7 @@ for i in range(len(ft_freq)):
     if abs(ft_freq[i]) > 1:
         ft_filtered[i] = 0
 
-if PLOT:
+if PLOT and __name__ == '__main__':
     plt.figure()
     plt.plot(week, total_patients)
 
