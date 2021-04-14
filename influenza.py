@@ -9,6 +9,7 @@ RANGE = [0, -1]
 
 data = pd.read_csv(FILE, skiprows=1)
 data = data[data['REGION'] == REGION]
+# print(data['REGION'].unique())
 
 total_patients = data['TOTAL PATIENTS'].to_numpy()[RANGE[0]:RANGE[1]]
 week = np.arange(len(total_patients))
