@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 PLOT = True
-FILE = 'influenza.csv'
+FILE = 'influenza.csv'  # https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/29023
 REGION = 'Pacific'
 RANGE = [0, -1]
 
@@ -31,7 +31,7 @@ def fit(time, data, degree):
 
 trend = fit(week, total_patients, 20)
 
-ft_freq = np.fft.fftshift(np.fft.fftfreq(len(week), 7/365))
+ft_freq = np.fft.fftshift(np.fft.fftfreq(len(week), 7 / 365))
 ft_raw = np.fft.fftshift(np.fft.fft(total_patients))
 ft_cleaned = np.fft.fftshift(np.fft.fft(total_patients - trend))
 
