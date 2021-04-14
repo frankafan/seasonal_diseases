@@ -37,9 +37,7 @@ ft_cleaned = np.fft.fftshift(np.fft.fft(total_patients - trend))
 
 ft_filtered = ft_cleaned.copy()
 for i in range(len(ft_freq)):
-    if abs(ft_freq[i]) > 0.007:
-        ft_filtered[i] = 0
-    if abs(ft_cleaned[i]) ** 2 < 0.1e10:
+    if abs(ft_freq[i]) > 0.02:
         ft_filtered[i] = 0
 
 if PLOT:
@@ -53,6 +51,16 @@ if PLOT:
     plt.plot(week, total_patients - trend)
 
     plt.figure()
-    plt.stem(ft_freq, np.square(np.abs(ft_raw)), use_line_collection=True)
+    plt.stem(ft_freq, np.square(np.abs(ft_cleaned)), use_line_collection=True)
+
+    plt.figure()
+    plt.stem(ft_freq, np.square(np.abs(ft_filtered)), use_line_collection=True)
+
+    plt.figure()
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_filtered)) + trend)
+
+    plt.figure()
+    plt.plot(week, total_patients)
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_filtered)) + trend)
 
     plt.show()
