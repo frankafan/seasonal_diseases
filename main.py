@@ -31,13 +31,13 @@ def fit(time, data, degree):
 
 trend = fit(week, total_patients, 20)
 
-ft_freq = np.fft.fftshift(np.fft.fftfreq(len(week), 1))
+ft_freq = np.fft.fftshift(np.fft.fftfreq(len(week), 7/365))
 ft_raw = np.fft.fftshift(np.fft.fft(total_patients))
 ft_cleaned = np.fft.fftshift(np.fft.fft(total_patients - trend))
 
 ft_filtered = ft_cleaned.copy()
 for i in range(len(ft_freq)):
-    if abs(ft_freq[i]) > 0.02:
+    if abs(ft_freq[i]) > 1:
         ft_filtered[i] = 0
 
 if PLOT:
