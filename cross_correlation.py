@@ -40,8 +40,12 @@ for group1 in age_groups.keys():
 
 if PLOT:
     plt.figure()
-    plt.plot(month, temperature_change)
-    plt.plot(month, patient_change)
+    plt.plot(month, temperature_change * 100, label='Temperature')
+    plt.plot(month, patient_change * 100, label='Total number of patients')
+    plt.legend()
+    plt.xlabel('# of months after January 1998')
+    plt.ylabel('% change from previous month')
+    plt.title("Percent change in temperature and total number of patient")
 
     plt.figure()
     plt.xcorr(patient_change, -temperature_change, maxlags=None)
@@ -63,6 +67,6 @@ if PLOT:
         for j in range(len(age_groups.keys())):
             text = ax.text(j, i, round(corr_heatmap[i, j], 2),
                            ha="center", va="center", color="r")
-    ax.set_title("")
+    ax.set_title("Age group correlation map")
     fig.tight_layout()
     plt.show()
