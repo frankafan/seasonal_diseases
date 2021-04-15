@@ -53,8 +53,8 @@ if PLOT and __name__ == '__main__':
     plt.xlabel('# of weeks after January 1998')
     plt.ylabel('# of total patients')
     plt.title(
-        "Total number of patients from Influenza-like-illnesses in the United States from January 1998 to December 2014",
-        fontsize=8)
+        f"Total number of patients from Influenza-like-illnesses in the United States {REGION} region from January 1998 to December 2014",
+        fontsize=7)
 
     plt.figure()
     plt.plot(week, total_patients, label='Original data')

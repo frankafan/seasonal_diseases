@@ -40,6 +40,14 @@ for group1 in age_groups.keys():
 
 if PLOT:
     plt.figure()
+    plt.plot(month, temperature)
+    plt.xlabel('# of months after January 1998')
+    plt.ylabel('$^{\circ}F$')
+    plt.title(
+        f"Average monthly temperatures in the {REGION} region from January 1998 to December 2014",
+        fontsize=8)
+
+    plt.figure()
     plt.plot(month, temperature_change * 100, label='Temperature')
     plt.plot(month, patient_change * 100, label='Total number of patients')
     plt.legend()
