@@ -9,8 +9,11 @@ def data_by_region(region, data_property, data_range):
     data = data[data['REGION'] == region][data_range[0]:data_range[1]]
     cases = data[data_property].to_numpy()
     for i in range(len(cases)):
-        if (cases[i] == 'X' or np.isnan(np.float(cases[i]))) and (i > 0):
-            cases[i] = cases[i - 1]
+        if cases[i] == 'X' or np.isnan(np.float(cases[i])):
+            if i > 0:
+                cases[i] = cases[i - 1]
+            else:
+                cases[i] = 0
         cases[i] = np.float(cases[i])
     return cases
 

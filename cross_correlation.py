@@ -19,13 +19,14 @@ for i in range(1, len(temperature)):
         i - 1]) / patients_monthly[i - 1]
 
 age_groups = {
-    'age0': data_by_region(REGION, 'AGE 0-4', RANGE),
-    'age5': data_by_region(REGION, 'AGE 5-24', RANGE),
-    'age25': data_by_region(REGION, 'AGE 25-64', RANGE),
-    'age65': data_by_region(REGION, 'AGE 65', RANGE),
+    'age0-4': data_by_region(REGION, 'AGE 0-4', RANGE),
+    'age5-24': data_by_region(REGION, 'AGE 5-24', RANGE),
+    'age25-40': data_by_region(REGION, 'AGE 25-49', RANGE),
+    'age50-64': data_by_region(REGION, 'AGE 50-64', RANGE),
+    'age65-over': data_by_region(REGION, 'AGE 65', RANGE),
 }
 
-corr_heatmap = np.zeros((4, 4))
+corr_heatmap = np.zeros((len(age_groups), len(age_groups)))
 for group1 in age_groups.keys():
     for group2 in age_groups.keys():
         cross_correlation = np.correlate(
