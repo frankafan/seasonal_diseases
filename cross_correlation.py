@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from data_by_region import data_by_region
 from temperature import temperature, month
 
-PLOT = False
+PLOT = True
 REGION = 'Pacific'
 PROPERTY = 'TOTAL PATIENTS'
 RANGE = [14, -3]  # from 1998-01 to 2014-12
@@ -36,7 +36,6 @@ for group1 in age_groups.keys():
             np.where(np.array(list(age_groups.keys())) == group1)[0][0],
             np.where(np.array(list(age_groups.keys())) == group2)[0][0]
         ] = max(cross_correlation)
-print(corr_heatmap)
 
 if PLOT:
     plt.figure()
@@ -49,5 +48,8 @@ if PLOT:
     plt.figure()
     plt.xcorr(np.sign(patient_change), np.sign(-temperature_change),
               maxlags=None)
+
+    plt.figure()
+    plt.imshow(corr_heatmap, cmap='gray')
 
     plt.show()
