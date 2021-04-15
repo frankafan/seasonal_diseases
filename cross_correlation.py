@@ -74,7 +74,7 @@ if PLOT:
 
     plt.figure()
     plt.xcorr(np.sign(patient_change), np.sign(-temperature_change),
-              maxlags=None)
+              normed=False, maxlags=None)
     plt.xlabel('Lag [month]')
     plt.ylabel('Correlation')
     plt.title(
