@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-PLOT = False
+PLOT = True
 FILE = 'influenza.csv'  # https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/29023
 REGION = 'Pacific'
 RANGE = [14, -3]  # from 1998-01 to 2014-12
@@ -36,10 +36,14 @@ ft_freq = np.fft.fftshift(np.fft.fftfreq(len(week), 7 / 365))
 ft_raw = np.fft.fftshift(np.fft.fft(total_patients))
 ft_cleaned = np.fft.fftshift(np.fft.fft(total_patients - trend))
 
-ft_filtered = ft_cleaned.copy()
+boxcar_filter = np.ones(len(ft_freq))
+hann_filter = np.zeros(len(ft_freq))
 for i in range(len(ft_freq)):
     if abs(ft_freq[i]) > 1:
-        ft_filtered[i] = 0
+        boxcar_filter[i] = 0
+    hann_filter[i] = np.sin(np.pi * i / (len(ft_freq) - 1)) ** 2
+
+ft_filtered = ft_cleaned * boxcar_filter
 
 if PLOT and __name__ == '__main__':
     plt.figure()
