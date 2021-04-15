@@ -30,13 +30,13 @@ def fit(time, data, degree):
     return np.array(y)
 
 
-def filter_time_series(time_series, dt):
+def filter_time_series(time_series, dt, w):
     ft_freq = np.fft.fftshift(np.fft.fftfreq(len(time_series), dt))
     ft = np.fft.fftshift(np.fft.fft(time_series))
 
     ft_filtered = ft.copy()
     for i in range(len(ft_freq)):
-        if abs(ft_freq[i]) > 1:
+        if abs(ft_freq[i]) > w:
             ft_filtered[i] = 0
     series_filtered = np.fft.ifft(np.fft.ifftshift(ft_filtered))
     return series_filtered
