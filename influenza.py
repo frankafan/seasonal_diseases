@@ -42,7 +42,7 @@ gaussian_filter = np.zeros(len(ft_freq))
 for i in range(len(ft_freq)):
     if abs(ft_freq[i]) > 1:
         boxcar_filter[i] = 0
-    gaussian_filter[i] = np.exp(- np.pi ** 2 * ft_freq[i] ** 2 / 10)
+    gaussian_filter[i] = np.exp(- np.pi ** 2 * ft_freq[i] ** 2 / 15)
 
 ft_boxcar_filtered = ft_cleaned * boxcar_filter
 ft_gaussian_filtered = ft_cleaned * gaussian_filter
@@ -69,7 +69,7 @@ if PLOT and __name__ == '__main__':
     plt.plot(week, total_patients - trend)
     plt.xlabel('# of weeks after January 1998')
     plt.ylabel('# of patients deviating from fit curve')
-    plt.title("De-trended total number of patients")
+    plt.title("De-trended time series")
 
     plt.figure()
     plt.plot(ft_freq, np.square(np.abs(ft_cleaned)))
@@ -85,8 +85,12 @@ if PLOT and __name__ == '__main__':
     plt.title("Power spectrum of de-trended time series")
 
     plt.figure()
-    plt.plot(week, total_patients)
-    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_boxcar_filtered)) + trend)
-    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_gaussian_filtered)) + trend)
+    plt.plot(week, total_patients, label='Original data')
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_boxcar_filtered)) + trend, label='Boxcar-filtered data')
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_gaussian_filtered)) + trend, label='Gaussian-filtered data')
+    plt.legend()
+    plt.xlabel('# of weeks after January 1998')
+    plt.ylabel('# of total patients')
+    plt.title("Filtered time series")
 
     plt.show()
