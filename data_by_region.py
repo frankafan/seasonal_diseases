@@ -7,11 +7,11 @@ FILE = 'influenza.csv'  # https://dataverse.harvard.edu/dataset.xhtml?persistent
 def data_by_region(region, data_property, data_range):
     data = pd.read_csv(FILE, skiprows=1)
     data = data[data['REGION'] == region][data_range[0]:data_range[1]]
-    total_patients = data[data_property].to_numpy()
-    for i in range(len(total_patients)):
-        if np.isnan(total_patients[i]) and (i > 0):
-            total_patients[i] = total_patients[i - 1]
-    return total_patients
+    cases = data[data_property].to_numpy()
+    for i in range(len(cases)):
+        if np.isnan(cases[i]) and (i > 0):
+            cases[i] = cases[i - 1]
+    return cases
 
 
 def fit(time, data, degree):
