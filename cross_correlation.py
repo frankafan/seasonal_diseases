@@ -45,14 +45,24 @@ if PLOT:
     plt.legend()
     plt.xlabel('# of months after January 1998')
     plt.ylabel('% change from previous month')
-    plt.title("Percent change in temperature and total number of patient")
+    plt.title("Percent change in temperature and total number of patients")
 
     plt.figure()
-    plt.xcorr(patient_change, -temperature_change, maxlags=None)
+    plt.xcorr(patient_change, -temperature_change, normed=False, maxlags=None)
+    plt.xlabel('Lag [month]')
+    plt.ylabel('Correlation')
+    plt.title(
+        "Cross-correlation between patient number changes and negative temperature changes",
+        fontsize=10)
 
     plt.figure()
     plt.xcorr(np.sign(patient_change), np.sign(-temperature_change),
               maxlags=None)
+    plt.xlabel('Lag [month]')
+    plt.ylabel('Correlation')
+    plt.title(
+        "Bit-converted cross-correlation between patient number changes and negative temperature changes",
+        fontsize=8)
 
     fig, ax = plt.subplots()
     im = ax.imshow(corr_heatmap, cmap='gray')
