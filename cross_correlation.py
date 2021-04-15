@@ -49,7 +49,19 @@ if PLOT:
     plt.xcorr(np.sign(patient_change), np.sign(-temperature_change),
               maxlags=None)
 
-    plt.figure()
-    plt.imshow(corr_heatmap, cmap='gray')
+    fig, ax = plt.subplots()
+    im = ax.imshow(corr_heatmap, cmap='gray')
 
+    ax.set_xticks(np.arange(len(age_groups)))
+    ax.set_yticks(np.arange(len(age_groups)))
+    ax.set_xticklabels(list(age_groups.keys()))
+    ax.set_yticklabels(list(age_groups.keys()))
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+             rotation_mode="anchor")
+    for i in range(len(age_groups.keys())):
+        for j in range(len(age_groups.keys())):
+            text = ax.text(j, i, round(corr_heatmap[i, j], 2),
+                           ha="center", va="center", color="r")
+    ax.set_title("")
+    fig.tight_layout()
     plt.show()
