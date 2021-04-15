@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from data_by_region import data_by_region
-from temperature import temperature, month
+from climate import temperature, month
 
 PLOT = True
 SAVEFIG = True
