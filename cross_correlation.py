@@ -124,6 +124,7 @@ if PLOT:
             text = ax.text(j, i, round(corr_heatmap[i, j], 3),
                            ha="center", va="center", color="r")
     ax.set_title("Age group correlation map")
+    fig.colorbar(im, ax=ax)
     fig.tight_layout()
     if SAVEFIG:
         plt.savefig('12')
@@ -141,6 +142,7 @@ if PLOT:
             text = ax.text(j, i, round(region_heatmap[i, j], 2),
                            ha="center", va="center", color="r")
     ax.set_title("Region correlation map")
+    fig.colorbar(im, ax=ax)
     fig.tight_layout()
     if SAVEFIG:
         plt.savefig('13')
