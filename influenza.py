@@ -38,13 +38,14 @@ ft_raw = np.fft.fftshift(np.fft.fft(total_patients))
 ft_cleaned = np.fft.fftshift(np.fft.fft(total_patients - trend))
 
 boxcar_filter = np.ones(len(ft_freq))
-hann_filter = np.zeros(len(ft_freq))
+gaussian_filter = np.zeros(len(ft_freq))
 for i in range(len(ft_freq)):
     if abs(ft_freq[i]) > 1:
         boxcar_filter[i] = 0
-    hann_filter[i] = np.sin(np.pi * i / (len(ft_freq) - 1)) ** 2
+    gaussian_filter[i] = np.exp(- np.pi ** 2 * ft_freq[i] ** 2 / 10)
 
-ft_filtered = ft_cleaned * boxcar_filter
+ft_boxcar_filtered = ft_cleaned * boxcar_filter
+ft_gaussian_filtered = ft_cleaned * gaussian_filter
 
 if PLOT and __name__ == '__main__':
     plt.figure()
@@ -61,16 +62,31 @@ if PLOT and __name__ == '__main__':
     plt.legend()
     plt.xlabel('# of weeks after January 1998')
     plt.ylabel('# of total patients')
-    plt.title(f"Polynomial fit of total patient numbers to the {FIT_ORDER}th order")
+    plt.title(
+        f"Polynomial fit of total patient numbers to the {FIT_ORDER}th order")
 
     plt.figure()
     plt.plot(week, total_patients - trend)
+    plt.xlabel('# of weeks after January 1998')
+    plt.ylabel('# of patients deviating from fit curve')
+    plt.title("De-trended total number of patients")
+
+    plt.figure()
+    plt.plot(ft_freq, np.square(np.abs(ft_cleaned)))
+    plt.xlabel('$\omega [year^{-1}]$')
+    plt.ylabel('Intensity')
+    plt.title("Power spectrum of de-trended time series")
 
     plt.figure()
     plt.stem(ft_freq, np.square(np.abs(ft_cleaned)), use_line_collection=True)
+    plt.xlim([0, 5])
+    plt.xlabel('$\omega [year^{-1}]$')
+    plt.ylabel('Intensity')
+    plt.title("Power spectrum of de-trended time series")
 
     plt.figure()
     plt.plot(week, total_patients)
-    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_filtered)) + trend)
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_boxcar_filtered)) + trend)
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_gaussian_filtered)) + trend)
 
     plt.show()
