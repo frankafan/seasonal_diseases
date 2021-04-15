@@ -20,11 +20,11 @@ for i in range(1, len(temperature)):
         i - 1]) / patients_monthly[i - 1]
 
 age_groups = {
-    'age0-4': data_by_region(REGION, 'AGE 0-4', RANGE),
-    'age5-24': data_by_region(REGION, 'AGE 5-24', RANGE),
-    'age25-40': data_by_region(REGION, 'AGE 25-49', RANGE),
-    'age50-64': data_by_region(REGION, 'AGE 50-64', RANGE),
-    'age65-over': data_by_region(REGION, 'AGE 65', RANGE),
+    'AGE 0-4': data_by_region(REGION, 'AGE 0-4', RANGE),
+    'AGE 5-24': data_by_region(REGION, 'AGE 5-24', RANGE),
+    'AGE 25-49': data_by_region(REGION, 'AGE 25-49', RANGE),
+    'AGE 50-64': data_by_region(REGION, 'AGE 50-64', RANGE),
+    'AGE 65': data_by_region(REGION, 'AGE 65', RANGE),
 }
 
 corr_heatmap = np.zeros((len(age_groups), len(age_groups)))
@@ -37,6 +37,34 @@ for group1 in age_groups.keys():
         corr_heatmap[
             np.where(np.array(list(age_groups.keys())) == group1)[0][0],
             np.where(np.array(list(age_groups.keys())) == group2)[0][0]
+        ] = max(cross_correlation)
+
+regions = {
+    'New England': data_by_region('New England', 'TOTAL PATIENTS', RANGE),
+    'Mid-Atlantic': data_by_region('Mid-Atlantic', 'TOTAL PATIENTS', RANGE),
+    'East North Central': data_by_region('East North Central', 'TOTAL PATIENTS',
+                                         RANGE),
+    'West North Central': data_by_region('West North Central', 'TOTAL PATIENTS',
+                                         RANGE),
+    'South Atlantic': data_by_region('South Atlantic', 'TOTAL PATIENTS', RANGE),
+    'East South Central': data_by_region('East South Central', 'TOTAL PATIENTS',
+                                         RANGE),
+    'West South Central': data_by_region('West South Central', 'TOTAL PATIENTS',
+                                         RANGE),
+    'Mountain': data_by_region('Mountain', 'TOTAL PATIENTS', RANGE),
+    'Pacific': data_by_region('Pacific', 'TOTAL PATIENTS', RANGE),
+}
+
+region_heatmap = np.zeros((len(regions), len(regions)))
+for group1 in regions.keys():
+    for group2 in regions.keys():
+        cross_correlation = np.correlate(
+            regions[group1] / np.linalg.norm(regions[group1]),
+            regions[group2] / np.linalg.norm(regions[group2]),
+            'full')
+        region_heatmap[
+            np.where(np.array(list(regions.keys())) == group1)[0][0],
+            np.where(np.array(list(regions.keys())) == group2)[0][0]
         ] = max(cross_correlation)
 
 if PLOT:
@@ -85,7 +113,6 @@ if PLOT:
 
     fig, ax = plt.subplots()
     im = ax.imshow(corr_heatmap, cmap='gray')
-
     ax.set_xticks(np.arange(len(age_groups)))
     ax.set_yticks(np.arange(len(age_groups)))
     ax.set_xticklabels(list(age_groups.keys()))
@@ -94,10 +121,28 @@ if PLOT:
              rotation_mode="anchor")
     for i in range(len(age_groups.keys())):
         for j in range(len(age_groups.keys())):
-            text = ax.text(j, i, round(corr_heatmap[i, j], 2),
+            text = ax.text(j, i, round(corr_heatmap[i, j], 3),
                            ha="center", va="center", color="r")
     ax.set_title("Age group correlation map")
     fig.tight_layout()
     if SAVEFIG:
         plt.savefig('12')
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(region_heatmap, cmap='gray')
+    ax.set_xticks(np.arange(len(regions)))
+    ax.set_yticks(np.arange(len(regions)))
+    ax.set_xticklabels(list(regions.keys()))
+    ax.set_yticklabels(list(regions.keys()))
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+             rotation_mode="anchor")
+    for i in range(len(regions.keys())):
+        for j in range(len(regions.keys())):
+            text = ax.text(j, i, round(region_heatmap[i, j], 2),
+                           ha="center", va="center", color="r")
+    ax.set_title("Region correlation map")
+    fig.tight_layout()
+    if SAVEFIG:
+        plt.savefig('13')
+
     plt.show()

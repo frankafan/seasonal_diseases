@@ -10,8 +10,8 @@ RANGE = [14, -3]  # from 1998-01 to 2014-12
 FIT_ORDER = 10
 
 data = pd.read_csv(FILE, skiprows=1)
-data = data[data['REGION'] == REGION][RANGE[0]:RANGE[1]]
 # print(data['REGION'].unique())
+data = data[data['REGION'] == REGION][RANGE[0]:RANGE[1]]
 
 total_patients = data['TOTAL PATIENTS'].to_numpy()
 week = np.arange(len(total_patients))
