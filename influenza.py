@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 PLOT = True
+SAVEFIG = True
 FILE = 'influenza.csv'  # https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/29023
 REGION = 'Pacific'
 RANGE = [14, -3]  # from 1998-01 to 2014-12
@@ -58,6 +59,8 @@ if PLOT and __name__ == '__main__':
     plt.title(
         f"Total number of patients from Influenza-like-illnesses in the United States from January 1998 to December 2014",
         fontsize=8)
+    if SAVEFIG:
+        plt.savefig('1')
 
     plt.figure()
     plt.plot(week, total_patients, label='Original data')
@@ -67,18 +70,24 @@ if PLOT and __name__ == '__main__':
     plt.ylabel('# of total patients')
     plt.title(
         f"Polynomial fit of total patient numbers to the {FIT_ORDER}th order")
+    if SAVEFIG:
+        plt.savefig('2')
 
     plt.figure()
     plt.plot(week, total_patients - trend)
     plt.xlabel('# of weeks after January 1998')
     plt.ylabel('# of patients deviating from fit curve')
     plt.title("De-trended time series")
+    if SAVEFIG:
+        plt.savefig('3')
 
     plt.figure()
     plt.plot(ft_freq, np.square(np.abs(ft_cleaned)))
     plt.xlabel('$\omega [year^{-1}]$')
     plt.ylabel('Intensity')
     plt.title("Power spectrum of de-trended time series")
+    if SAVEFIG:
+        plt.savefig('4')
 
     plt.figure()
     plt.stem(ft_freq, np.square(np.abs(ft_cleaned)), use_line_collection=True)
@@ -86,6 +95,8 @@ if PLOT and __name__ == '__main__':
     plt.xlabel('$\omega [year^{-1}]$')
     plt.ylabel('Intensity')
     plt.title("Power spectrum of de-trended time series")
+    if SAVEFIG:
+        plt.savefig('5')
 
     plt.figure()
     plt.stem(ft_freq, np.square(np.abs(ft_boxcar_filtered)), use_line_collection=True)
@@ -93,6 +104,8 @@ if PLOT and __name__ == '__main__':
     plt.xlabel('$\omega [year^{-1}]$')
     plt.ylabel('Intensity')
     plt.title("Filtered power spectrum of de-trended time series")
+    if SAVEFIG:
+        plt.savefig('6')
 
     plt.figure()
     plt.plot(week, total_patients, label='Original data')
@@ -102,6 +115,8 @@ if PLOT and __name__ == '__main__':
     plt.xlabel('# of weeks after January 1998')
     plt.ylabel('# of total patients')
     plt.title("Filtered time series")
+    if SAVEFIG:
+        plt.savefig('7')
 
     # plt.figure()
     # plt.plot(week, total_patients, label='Original data')

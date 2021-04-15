@@ -4,6 +4,7 @@ from data_by_region import data_by_region
 from temperature import temperature, month
 
 PLOT = True
+SAVEFIG = True
 REGION = 'Pacific'
 PROPERTY = 'TOTAL PATIENTS'
 RANGE = [14, -3]  # from 1998-01 to 2014-12
@@ -48,6 +49,8 @@ if PLOT:
     #     fontsize=8)
     plt.title(
         f"Average monthly temperatures from January 1998 to December 2014")
+    if SAVEFIG:
+        plt.savefig('8')
 
     plt.figure()
     plt.plot(month, temperature_change * 100, label='Temperature')
@@ -56,6 +59,8 @@ if PLOT:
     plt.xlabel('# of months after January 1998')
     plt.ylabel('% change from previous month')
     plt.title("Percent change in temperature and total number of patients")
+    if SAVEFIG:
+        plt.savefig('9')
 
     plt.figure()
     plt.xcorr(patient_change, -temperature_change, normed=False, maxlags=None)
@@ -64,6 +69,8 @@ if PLOT:
     plt.title(
         "Cross-correlation between patient number changes and negative temperature changes",
         fontsize=10)
+    if SAVEFIG:
+        plt.savefig('10')
 
     plt.figure()
     plt.xcorr(np.sign(patient_change), np.sign(-temperature_change),
@@ -73,6 +80,8 @@ if PLOT:
     plt.title(
         "Bit-converted cross-correlation between patient number changes and negative temperature changes",
         fontsize=8)
+    if SAVEFIG:
+        plt.savefig('11')
 
     fig, ax = plt.subplots()
     im = ax.imshow(corr_heatmap, cmap='gray')
@@ -89,4 +98,6 @@ if PLOT:
                            ha="center", va="center", color="r")
     ax.set_title("Age group correlation map")
     fig.tight_layout()
+    if SAVEFIG:
+        plt.savefig('12')
     plt.show()
