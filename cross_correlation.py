@@ -27,10 +27,11 @@ age_groups = {
 
 for group1 in age_groups.keys():
     for group2 in age_groups.keys():
-        plt.figure()
-        plt.xcorr(age_groups[group1],
-                  age_groups[group2])
-plt.show()
+        cross_correlation = np.correlate(
+            age_groups[group1] / np.linalg.norm(age_groups[group1]),
+            age_groups[group2] / np.linalg.norm(age_groups[group2]),
+            'full')
+        print(max(cross_correlation))
 
 if PLOT:
     plt.figure()
