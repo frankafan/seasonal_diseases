@@ -11,6 +11,7 @@ def data_by_region(region, data_property, data_range):
     for i in range(len(cases)):
         if (cases[i] == 'X' or np.isnan(np.float(cases[i]))) and (i > 0):
             cases[i] = cases[i - 1]
+        cases[i] = np.float(cases[i])
     return cases
 
 
