@@ -85,12 +85,28 @@ if PLOT and __name__ == '__main__':
     plt.title("Power spectrum of de-trended time series")
 
     plt.figure()
+    plt.stem(ft_freq, np.square(np.abs(ft_boxcar_filtered)), use_line_collection=True)
+    plt.xlim([0, 5])
+    plt.xlabel('$\omega [year^{-1}]$')
+    plt.ylabel('Intensity')
+    plt.title("Filtered power spectrum of de-trended time series")
+
+    plt.figure()
     plt.plot(week, total_patients, label='Original data')
-    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_boxcar_filtered)) + trend, label='Boxcar-filtered data')
-    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_gaussian_filtered)) + trend, label='Gaussian-filtered data')
+    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_boxcar_filtered)) + trend,
+             label='Filtered data')
     plt.legend()
     plt.xlabel('# of weeks after January 1998')
     plt.ylabel('# of total patients')
     plt.title("Filtered time series")
+
+    # plt.figure()
+    # plt.plot(week, total_patients, label='Original data')
+    # plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_boxcar_filtered)) + trend, label='Boxcar-filtered data')
+    # plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_gaussian_filtered)) + trend, label='Gaussian-filtered data')
+    # plt.legend()
+    # plt.xlabel('# of weeks after January 1998')
+    # plt.ylabel('# of total patients')
+    # plt.title("Filtered time series")
 
     plt.show()
