@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from data_by_region import data_by_region
 from temperature import temperature, month
 
+PLOT = False
 REGION = 'Pacific'
 PROPERTY = 'TOTAL PATIENTS'
 RANGE = [14, -3]  # from 1998-01 to 2014-12
@@ -17,11 +18,16 @@ for i in range(1, len(temperature)):
     patient_change[i] = (patients_monthly[i] - patients_monthly[
         i - 1]) / patients_monthly[i - 1]
 
-plt.figure()
-plt.plot(month, temperature_change)
-plt.plot(month, patient_change)
-plt.figure()
-plt.xcorr(patient_change, temperature_change, maxlags=None)
-plt.figure()
-plt.xcorr(np.sign(patient_change), np.sign(temperature_change), maxlags=None)
-plt.show()
+if PLOT:
+    plt.figure()
+    plt.plot(month, temperature_change)
+    plt.plot(month, patient_change)
+
+    plt.figure()
+    plt.xcorr(patient_change, -temperature_change, maxlags=None)
+
+    plt.figure()
+    plt.xcorr(np.sign(patient_change), np.sign(-temperature_change),
+              maxlags=None)
+    
+    plt.show()
