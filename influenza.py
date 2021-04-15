@@ -56,7 +56,9 @@ if PLOT and __name__ == '__main__':
         fontsize=8)
 
     plt.figure()
-    plt.plot(week, trend)
+    plt.plot(week, total_patients, label='Original data')
+    plt.plot(week, trend, label='Fit curve')
+    plt.legend()
     plt.xlabel('# of weeks after January 1998')
     plt.ylabel('# of total patients')
     plt.title(f"Polynomial fit of total patient numbers to the {FIT_ORDER}th order")
@@ -66,12 +68,6 @@ if PLOT and __name__ == '__main__':
 
     plt.figure()
     plt.stem(ft_freq, np.square(np.abs(ft_cleaned)), use_line_collection=True)
-
-    plt.figure()
-    plt.stem(ft_freq, np.square(np.abs(ft_filtered)), use_line_collection=True)
-
-    plt.figure()
-    plt.plot(week, np.fft.ifft(np.fft.ifftshift(ft_filtered)))
 
     plt.figure()
     plt.plot(week, total_patients)
