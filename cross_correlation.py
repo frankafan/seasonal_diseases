@@ -18,6 +18,11 @@ for i in range(1, len(temperature)):
     patient_change[i] = (patients_monthly[i] - patients_monthly[
         i - 1]) / patients_monthly[i - 1]
 
+age0 = data_by_region(REGION, 'AGE 0-4', RANGE)
+age5 = data_by_region(REGION, 'AGE 5-24', RANGE)
+age25 = data_by_region(REGION, 'AGE 25-64', RANGE)
+age65 = data_by_region(REGION, 'AGE 65', RANGE)
+
 if PLOT:
     plt.figure()
     plt.plot(month, temperature_change)
@@ -29,5 +34,5 @@ if PLOT:
     plt.figure()
     plt.xcorr(np.sign(patient_change), np.sign(-temperature_change),
               maxlags=None)
-    
+
     plt.show()
