@@ -25,13 +25,18 @@ age_groups = {
     'age65': data_by_region(REGION, 'AGE 65', RANGE),
 }
 
+corr_heatmap = np.zeros((4, 4))
 for group1 in age_groups.keys():
     for group2 in age_groups.keys():
         cross_correlation = np.correlate(
             age_groups[group1] / np.linalg.norm(age_groups[group1]),
             age_groups[group2] / np.linalg.norm(age_groups[group2]),
             'full')
-        print(max(cross_correlation))
+        corr_heatmap[
+            np.where(np.array(list(age_groups.keys())) == group1)[0][0],
+            np.where(np.array(list(age_groups.keys())) == group2)[0][0]
+        ] = max(cross_correlation)
+print(corr_heatmap)
 
 if PLOT:
     plt.figure()
